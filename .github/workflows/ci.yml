@@ -119,15 +119,17 @@ jobs:
           context: ./ci-cd-project
           push: false
           tags: myapp:${{ github.sha }}
+          load: true
           cache-from: type=gha
           cache-to: type=gha,mode=max
       
       - name: Test Docker image
         run: |
           docker run -d -p 3000:3000 --name test-container myapp:${{ github.sha }}
-          sleep 5
-          curl --fail http://localhost:3000/health || exit 1
+          sleep 10
+          curl --fail --retry 3 --retry-delay 2 http://localhost:3000/health || exit 1
           docker stop test-container
+          docker rm test-container
 
   # Stage 4: Notify
   notify:
