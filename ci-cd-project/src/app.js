@@ -6,7 +6,9 @@ app.use(express.json());
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.status(200).json({ status: 'healthy', timestamp: new Date().toISOString() });
+  res
+    .status(200)
+    .json({ status: 'healthy', timestamp: new Date().toISOString() });
 });
 
 // API routes
@@ -16,16 +18,16 @@ app.get('/api/users', (req, res) => {
 
 app.post('/api/users', (req, res) => {
   const { name, email } = req.body;
-  
+
   if (!name || !email) {
     return res.status(400).json({ error: 'Name and email are required' });
   }
-  
+
   res.status(201).json({ id: 1, name, email });
 });
 
 // Error handling
-app.use((err, req, res, next) => {
+app.use((err, req, res, _next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Internal server error' });
 });
