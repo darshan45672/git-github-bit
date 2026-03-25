@@ -9,7 +9,12 @@ jobs:                          # Define jobs
       - run: echo "Setting up environment..."
       - run: echo "Installing dependencies..."   
       - run: echo "Building..."
-  
+   parallel-exe:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running parallel task 1..."
+      - run: echo "Running parallel task 2..."
+      - run: echo "Running parallel task 3..."
    test:
     needs: build          # Wait for build to complete
     runs-on: ubuntu-latest
@@ -17,7 +22,14 @@ jobs:                          # Define jobs
       - run: echo "Setting up test environment..."
       - run: echo "Running tests..."  
       - run: echo "Testing..."
-  
+   
+   parallel-test:
+    needs: build          # Wait for build to complete
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Running parallel test 1..."
+      - run: echo "Running parallel test 2..."
+      - run: echo "Running parallel test 3..."   
    deploy:
     needs: [build, test]  # Wait for both build and test
     runs-on: ubuntu-latest
