@@ -8,3 +8,5 @@ jobs:                          # Define jobs
     steps:                     # Steps to execute
       - name: Checkout code    # Step name
         uses: actions/checkout@v4  # Use an action
+      - name: step-1         # Another step
+        run: echo "Hello, World!"  # Run a command
