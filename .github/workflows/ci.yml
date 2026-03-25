@@ -25,14 +25,18 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: 'ci-cd-project/package-lock.json'
       
       - name: Install dependencies
+        working-directory: ./ci-cd-project
         run: npm ci
       
       - name: Run ESLint
+        working-directory: ./ci-cd-project
         run: npm run lint
       
       - name: Check formatting
+        working-directory: ./ci-cd-project
         run: npx prettier --check "src/**/*.js" "tests/**/*.js"
 
   security-scan:
@@ -44,11 +48,15 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'ci-cd-project/package-lock.json'
       
       - name: Install dependencies
+        working-directory: ./ci-cd-project
         run: npm ci
       
       - name: Run npm audit
+        working-directory: ./ci-cd-project
         run: npm audit --audit-level=moderate
         continue-on-error: true
       
@@ -69,23 +77,28 @@ jobs:
         with:
           node-version: '18'
           cache: 'npm'
+          cache-dependency-path: 'ci-cd-project/package-lock.json'
       
       - name: Install dependencies
+        working-directory: ./ci-cd-project
         run: npm ci
       
       - name: Run unit tests
+        working-directory: ./ci-cd-project
         run: npm run test:unit
       
       - name: Run integration tests
+        working-directory: ./ci-cd-project
         run: npm run test:integration
       
       - name: Run all tests with coverage
+        working-directory: ./ci-cd-project
         run: npm test
       
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
         with:
-          files: ./coverage/coverage-final.json
+          files: ./ci-cd-project/coverage/coverage-final.json
           flags: unittests
           fail_ci_if_error: false
 
@@ -103,7 +116,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./ci-cd-project
           push: false
           tags: myapp:${{ github.sha }}
           cache-from: type=gha
