@@ -3,13 +3,19 @@ name: CI Pipeline Demo            # Workflow name (shows in GitHub UI)
 on: [push, pull_request]      # When to run this workflow
 
 jobs:                          # Define jobs
-   job1:
+   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Job 1"
+      - run: echo "Building..."
   
-      
-   job2:
+   test:
+    needs: build          # Wait for build to complete
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Job 2"
+      - run: echo "Testing..."
+  
+   deploy:
+    needs: [build, test]  # Wait for both build and test
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploying..."
