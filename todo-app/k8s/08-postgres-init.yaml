@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+  namespace: todo-app
+data:
+  init.sql: |
+    CREATE TABLE IF NOT EXISTS todos (
+      id SERIAL PRIMARY KEY,
+      title VARCHAR(255) NOT NULL,
+      description TEXT,
+      completed BOOLEAN DEFAULT FALSE,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    -- Sample data
+    INSERT INTO todos (title, description) VALUES
+      ('Learn Kubernetes', 'Complete K8s deployment tutorial'),
+      ('Deploy with kubectl', 'Use kubectl to deploy the todo app'),
+      ('Scale application', 'Scale backend and frontend replicas');
