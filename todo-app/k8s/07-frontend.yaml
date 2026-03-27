@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: todo-frontend:v1
+        image: localhost/todo-frontend:v1
         ports:
         - containerPort: 80
         livenessProbe:
@@ -55,4 +55,4 @@ spec:
           limits:
             memory: "128Mi"
             cpu: "100m"
-      imagePullPolicy: Never
+        imagePullPolicy: Never
